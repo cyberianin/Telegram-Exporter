@@ -1,0 +1,21 @@
+[Unit]
+Description=TGX export worker and local API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tgx
+EnvironmentFile=/etc/tgx/environment
+Environment=TGX_DATA_DIR=/var/lib/tgx
+ExecStart=/opt/tgx/bin/tgx serve --host 127.0.0.1 --port 8765
+Restart=on-failure
+TimeoutStopSec=60
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/tgx
+
+[Install]
+WantedBy=multi-user.target

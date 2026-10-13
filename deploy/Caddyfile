@@ -1,0 +1,9 @@
+{$TGX_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy tgx:8765
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        X-Frame-Options DENY
+    }
+}

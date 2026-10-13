@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "telegram-exporter"
+version = "0.1.0"
+description = "Resumable, streaming Telegram history exporter"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+  "telethon>=1.45,<2",
+  "typer>=0.12,<1",
+  "platformdirs>=4,<5",
+  "qrcode>=7.4,<9",
+  "pydantic>=2,<3",
+  "zstandard>=0.23,<1",
+  "ijson>=3.3,<4",
+  "alembic>=1.13,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "pytest-asyncio>=0.23,<2", "ruff>=0.6,<1", "mypy>=1.11,<2"]
+server = ["fastapi>=0.116,<1", "uvicorn>=0.30,<1", "cryptography>=43"]
+bot = ["aiogram>=3.13,<4", "httpx>=0.27,<1"]
+
+[project.scripts]
+tgx = "tgx.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tgx", "src/tgx_core", "src/tgx_cli", "src/tgx_api", "src/tgx_bot"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = "src"
+strict = true
+ignore_missing_imports = true
